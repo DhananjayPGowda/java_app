@@ -5,6 +5,8 @@ pipeline {
         AWS_REGION = 'eu-north-1'
         AWS_ACCOUNT_ID = '053468195333'
         ECR_REPO = 'java_app'
+        // These will come from Jenkins global environment variables
+        // AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are injected automatically
     }
 
     stages {
@@ -28,11 +30,10 @@ pipeline {
 
         stage('Login to Amazon ECR') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-creds']]) {
-                    sh '''
-                    aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 053468195333.dkr.ecr.eu-north-1.amazonaws.com
-                    '''
-                }
+                sh '''
+                aws ecr get-login-password --region ${AWS_REGION} | \
+                docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                '''
             }
         }
 
