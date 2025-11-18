@@ -5,8 +5,6 @@ pipeline {
         AWS_REGION = 'eu-north-1'
         AWS_ACCOUNT_ID = '053468195333'
         ECR_REPO = 'java_app'
-        // These will come from Jenkins global environment variables
-        // AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are injected automatically
     }
 
     stages {
